@@ -1,0 +1,45 @@
+.email {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 100px;
+}
+
+.password {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+
+.mat-form-field {
+  width: 300px;
+  height: auto;
+  font-size: 16px;
+}
+
+
+.button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.buttonsDIV{
+ display: flex;
+  justify-content: center;
+}
+#btnLogin {
+  color: white;
+  width: 100px;
+  margin-right: 10px;
+}
+
+#btnRegister {
+  color: white;
+  background-color: #b06c6c;
+  width: 100px;
+}
+.LogindPage{
+  padding: 50px;
+}
