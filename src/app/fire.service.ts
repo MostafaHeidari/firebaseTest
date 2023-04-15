@@ -10,8 +10,8 @@ import * as config from '../../firebaseConfig.js'
 @Injectable({
   providedIn: 'root'
 })
-export class FireService {
 
+export class FireService {
   firebaseApplication;
   firestore: firebase.firestore.Firestore;
   auth: firebase.auth.Auth;
@@ -32,7 +32,9 @@ export class FireService {
         this.getImageOfSignedInUser();
       }
     })
+    this.firestore.useEmulator("localhost",2003);
   }
+
 
   async getImageOfSignedInUser() {
     this.currentlySignedInUserImageURL = await this.storage
