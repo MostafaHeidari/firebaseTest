@@ -32,7 +32,8 @@ export class FireService {
         this.getImageOfSignedInUser();
       }
     })
-    this.firestore.useEmulator("localhost",2003);
+    //using emulators
+    //this.firestore.useEmulator("localhost",2003);
   }
 
 
@@ -93,6 +94,12 @@ export class FireService {
 
   signOut() {
     this.auth.signOut();
+  }
+
+  deleteMessageByID(id: any) {
+    this.firestore
+      .collection('myChat')
+      .doc(id).delete();
   }
 }
 

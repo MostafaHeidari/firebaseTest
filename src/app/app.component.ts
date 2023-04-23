@@ -14,4 +14,12 @@ export class AppComponent {
   constructor(public fireService: FireService) {
 
   }
+
+  deleteMessageByID(id: any){
+    this.fireService.deleteMessageByID(id);
+  }
+
+  toggleExpand(product: any) {
+    product.expanded = !product.expanded;
+  }
 }

@@ -22,24 +22,46 @@
 
 
 <div class="LogindPage" *ngIf="fireService.auth.currentUser">
+  <div class="singOut">
+    <button mat-raised-button color="stroked" (click)="fireService.signOut()" >sign out</button>
+  </div>
 
   <h1>welcome, {{fireService.auth.currentUser.email}}
-    <button (click)="fireService.signOut()" >sign out</button>
     <img (click)="fileInput.click()" style="max-height: 60px;" [src]="fireService.currentlySignedInUserImageURL" alt="">
     <input (change)="fireService.updateUserImage($event)" hidden #fileInput type="file">
   </h1>
-  <input [(ngModel)]="sendThisMessage">
 
-  <button (click)="fireService.sendMessage(sendThisMessage)">send message</button>
-
-  <p *ngFor="let m of fireService.messages">
-    {{m | json}}
+  <p>
+    <mat-form-field appearance="fill">
+      <mat-label>write your message</mat-label>
+      <input matInput [(ngModel)]="sendThisMessage">
+      <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+    </mat-form-field><br>
+    <button mat-raised-button color="primary"(click)="fireService.sendMessage(sendThisMessage)">send message</button>
   </p>
 
+  <mat-card style="margin-top: 50px;" *ngFor="let m of fireService.messages" (click)="toggleExpand(m)">
+    <mat-card-title style="display: inline;">{{m.name}}</mat-card-title>
+    <mat-icon style="display: inline; float: left;" *ngIf="m.expanded!=true">keyboard_arrow_down</mat-icon>
+    <mat-icon style="display: inline; float: left;" *ngIf="m.expanded==true">keyboard_arrow_up</mat-icon>
+    <div *ngIf="m.expanded==true">
+      <mat-card-content class="message"> <label id="iconM">💬</label><h2>{{m.data.messageContent}} </h2></mat-card-content>
+      <mat-card-content>{{m.data.timestamp.toDate()}}</mat-card-content>
+      <mat-card-content>by: {{m.data.user}}</mat-card-content>
+      <mat-card-actions>
+        <br>
+        <button mat-raised-button color="accent" (click)="deleteMessageByID(m.id)">Delete message</button><br>
+      </mat-card-actions>
+    </div>
+  </mat-card>
+
+
+  <!--
+  <p *ngFor="let m of fireService.messages">
+    {{m | json}}
+  </p> --->
+
 </div>
-
-
-
 
 
 

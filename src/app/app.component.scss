@@ -42,4 +42,32 @@
 }
 .LogindPage{
   padding: 50px;
+
+  .singOut{
+    display: flex;
+    justify-items: center;
+    justify-content: right;
+    color: black;
+
+    button{
+      background-color: darkgoldenrod;
+      color: white;
+    }
+
+  }
+  h1{
+    background: #b8860b38;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    margin: 20px 0 20px 0;
+  }
+}
+.message{
+  padding: 20px;
+  color: #b06c6c;
+
+  #iconM{
+    height: 33px;
+  }
 }
