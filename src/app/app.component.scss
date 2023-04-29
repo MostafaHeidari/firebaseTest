@@ -1,0 +1,141 @@
+
+.logo {
+  padding-top: 50px;
+  display: flex;
+  justify-content: center;
+  align-self: center;
+  filter: drop-shadow(1px 2px 0px black);
+}
+
+.example-container mat-form-field + mat-form-field {
+  margin-left: 8px;
+}
+
+.example-right-align {
+  text-align: right;
+}
+
+input.example-right-align::-webkit-outer-spin-button,
+input.example-right-align::-webkit-inner-spin-button {
+  display: none;
+}
+
+input.example-right-align {
+  -moz-appearance: textfield;
+}
+
+.email {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 100px;
+
+  .mat-mdc-form-field {
+    width: 300px;
+  }
+}
+
+.password {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .mat-mdc-form-field {
+    width: 300px;
+  }
+
+}
+
+.mat-form-field {
+  width: 300px;
+  height: auto;
+  font-size: 16px;
+}
+
+
+.button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.buttonsDIV {
+  display: flex;
+  justify-content: center;
+}
+
+#btnLogin {
+  color: #ffffff;
+  width: 100px;
+  margin-right: 10px;
+  background-color: rgb(13 5 0 / 54%);
+}
+
+#btnRegister {
+  color: white;
+  background-color: #B17A50;
+  width: 100px;
+}
+
+.LogindPage {
+  padding: 50px;
+
+  .singOut {
+    display: flex;
+    justify-items: center;
+    justify-content: right;
+    color: black;
+
+    button {
+      background-color: #B17A50;
+      color: white;
+    }
+
+  }
+
+  .buttonAndTitle{
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-between;
+    align-items: center;
+    background: #7955481c;
+    margin-bottom: 50px;
+  }
+
+  h1 {
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    margin: 20px 0 20px 0;
+    img{
+      max-height: 50px;
+      border-radius: 99%;
+      filter: drop-shadow(-1px 1px 0px gray);
+      margin-left: 20px;
+    }
+  }
+  .deleteMessage{
+    color: #b06c6c;
+    margin-top: 30px;
+  }
+  .mat-icon{
+    color: #b06c6c;
+  }
+}
+
+.message {
+  padding: 20px;
+  color: #0e0e0e;
+
+  #iconM {
+    height: 33px;
+  }
+}
+
+.mat-mdc-card {
+  filter: drop-shadow(0px 0px 1px #795548);
+}
+
+.mat-mdc-form-field{
+  width: 400px;
+}
+
