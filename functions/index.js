@@ -1,3 +1,4 @@
+
 const functions = require("firebase-functions");
 
 // // Create and deploy your first functions
@@ -11,6 +12,7 @@ admin.initializeApp({projectId:"fir-test-a8acb"})
 
 
 
+
 const app =  require("express")();
 const cors = require("cors");
 
@@ -19,7 +21,7 @@ app.use(cors());
 const toxcity= require ('@tensorflow-models/toxicity');
 //const {DocumentReference, DocumentData} = require("@angular/fire/compat/firestore");
 
-
+/*analyze a message for toxic language.*/
 
 const isThisMessageAllRight = async (message) => {
   const model = await toxcity.load(0.9);
@@ -47,7 +49,7 @@ app.post("/message", async (req, res) => {
   }
   return res.status(400).json(
     {
-      message:"you are being toxic",
+      message:"You are a terrible person",
       result: result
     }
   )
@@ -55,7 +57,8 @@ app.post("/message", async (req, res) => {
 
 
 
-//makes some routes
+
+//This code sets up a route for an HTTP GET request to the path /whatever on an Express.js application.
 /*
 app.get('/whatever', (req, res)=>{
  return  res.json({key:"hello world"});
@@ -66,10 +69,8 @@ app.get("/someotherroute",(req,res)=> {
   res.json({someotherkey: "someothervalue"})
 })
  */
-
+/*
 exports.api = functions.https.onRequest(app)
-
-
 
 // the user have the same ID as the user in the firestore
 exports.authTriggeredFuction = functions.auth
@@ -91,11 +92,7 @@ exports.firestoreTriggeredFunction = functions.firestore
     functions.logger.log(myFieldData);
   })
 
-
-
-
-
-
+ */
 
 
 /*

@@ -6,6 +6,7 @@ import 'firebase/compat/storage'
 
 
 import * as config from '../../firebaseConfig.js'
+import axios from "axios";
 
 @Injectable({
   providedIn: 'root'
@@ -16,8 +17,10 @@ export class FireService {
   firestore: firebase.firestore.Firestore;
   auth: firebase.auth.Auth;
   storage: firebase.storage.Storage;
+  //functions: firebase.functions.Functions;
   // the default image if the user does not have any image URL will be the default one.
   currentlySignedInUserImageURL: string = "https://images.unsplash.com/photo-1619546813926-a78fa6372cd2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80";
+  baseUrl: string = "http://127.0.0.1:7015/fir-test-a8acb/us-central1/api/";
 
   messages: any[] = [];
 
@@ -26,16 +29,20 @@ export class FireService {
     this.firestore = firebase.firestore();
     this.auth = firebase.auth();
     this.storage = firebase.storage();
+    //this.functions = firebase.functions();
     this.auth.onAuthStateChanged((user) => {
       if(user) {
         this.getMessages();
         this.getImageOfSignedInUser();
       }
     })
-    //using emulators and trying to use http and not https.
-    //this.firestore.useEmulator("localhost",7017);
-    //this.storage.useEmulator("localhost",7061);
-    //this.auth.useEmulator("http://localhost:7013")
+     //using emulators and trying to use http and not https.
+    /*
+     this.firestore.useEmulator("localhost",7067);
+     this.storage.useEmulator("localhost",7065);
+     this.auth.useEmulator("http://localhost:7014");
+     //this.functions.useEmulator('localhost', 7015);
+     */
   }
 
 
@@ -59,17 +66,30 @@ export class FireService {
     let messageDTO: MessageDTO = {
       messageContent: sendThisMessage,
       timestamp: new Date(),
-      user: 'some user'
+     // user: this.auth.currentUser?.uid+""
+      user: this.auth.currentUser?.email+''
     }
+
+    /*
+    axios.post(this.baseUrl+"message", messageDTO).then(sucess =>{
+      console.log(sucess.data);
+    }).catch(err =>{
+      console.log(err);
+    })
+     */
+
     this.firestore
-      .collection('myChat')
+      .collection('chat')
       .add(messageDTO);
   }
+  /*npm run build*/
+
 
   getMessages() {
     this.firestore
-      .collection('myChat')
-      .where('user', '==', 'some user')
+      .collection('chat')
+      //.where('user', '==', 'some user')
+      .orderBy('timestamp')
       .onSnapshot(snapshot => {
         snapshot.docChanges().forEach(change => {
           if(change.type=="added") {
@@ -86,6 +106,7 @@ export class FireService {
       })
   }
 
+
   register(email: string, password: string) {
     this.auth.createUserWithEmailAndPassword(email, password);
   }
@@ -100,13 +121,13 @@ export class FireService {
 
   deleteMessageByID(id: any) {
     this.firestore
-      .collection('myChat')
+      .collection('chat')
       .doc(id).delete();
   }
 }
 
 export interface MessageDTO {
   messageContent: string;
-  timestamp: Date;
+  timestamp?: Date;
   user: string;
 }
