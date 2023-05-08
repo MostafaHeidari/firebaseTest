@@ -6,7 +6,7 @@ import 'firebase/compat/storage'
 
 
 import * as config from '../../firebaseConfig.js'
-import axios from "axios";
+import axios, {AxiosError} from "axios";
 
 @Injectable({
   providedIn: 'root'
@@ -23,6 +23,7 @@ export class FireService {
   baseUrl: string = "http://127.0.0.1:7015/fir-test-a8acb/us-central1/api/";
 
   messages: any[] = [];
+  errMsg: string = "";
 
   constructor() {
     this.firebaseApplication = firebase.initializeApp(config.firebaseConfig);
@@ -36,7 +37,7 @@ export class FireService {
         this.getImageOfSignedInUser();
       }
     })
-     //using emulators and trying to use http and not https.
+    //using emulators and trying to use http and not https.
     /*
      this.firestore.useEmulator("localhost",7067);
      this.storage.useEmulator("localhost",7065);
@@ -63,37 +64,40 @@ export class FireService {
   }
 
   sendMessage(sendThisMessage: any) {
-    let messageDTO: MessageDTO = {
+    let messageDTO= {
       messageContent: sendThisMessage,
+      user: this.auth.currentUser?.uid+"",
       timestamp: new Date(),
-     // user: this.auth.currentUser?.uid+""
-      user: this.auth.currentUser?.email+''
+      id: (Math.random() + 1).toString(20).substring(2,15)
     }
-
-    /*
-    axios.post(this.baseUrl+"message", messageDTO).then(sucess =>{
-      console.log(sucess.data);
-    }).catch(err =>{
-      console.log(err);
-    })
-     */
 
     this.firestore
       .collection('chat')
-      .add(messageDTO);
+      .add(messageDTO)
+      .then(() => {
+        // message added successfully, no need to update messages array
+      })
+      .catch((error) => {
+        console.error('Error adding message: ', error);
+      });
   }
-  /*npm run build*/
+
 
 
   getMessages() {
     this.firestore
       .collection('chat')
-      //.where('user', '==', 'some user')
-      .orderBy('timestamp')
+      .orderBy('timestamp', 'asc')
       .onSnapshot(snapshot => {
         snapshot.docChanges().forEach(change => {
           if(change.type=="added") {
-            this.messages.push({id: change.doc.id, data: change.doc.data()});
+            const index = this.messages.findIndex(m => m.id == change.doc.id)
+            if(index == -1) {
+              this.messages.push(change.doc.data()); // Use push instead of unshift to add new messages at the end
+            } else  {
+              this.messages[index].hasNotBeenThroughToxicityFilterYet = false;
+            }
+
           } if (change.type=='modified') {
             const index = this.messages.findIndex(document => document.id != change.doc.id);
             this.messages[index] =
@@ -105,6 +109,8 @@ export class FireService {
         })
       })
   }
+
+
 
 
   register(email: string, password: string) {
@@ -126,8 +132,4 @@ export class FireService {
   }
 }
 
-export interface MessageDTO {
-  messageContent: string;
-  timestamp?: Date;
-  user: string;
-}
+

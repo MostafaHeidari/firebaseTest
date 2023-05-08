@@ -28,4 +28,15 @@ export class AppComponent {
   uploadPDF($event: MouseEvent) {
 
   }
+
+  signout() {
+
+  }
+
+  sendMessage() {
+    if (this.sendThisMessage.trim() !== '') {
+      this.fireService.sendMessage(this.sendThisMessage);
+      this.sendThisMessage = '';
+    }
+  }
 }

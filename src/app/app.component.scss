@@ -1,11 +1,33 @@
 
-.logo {
-  padding-top: 50px;
-  display: flex;
-  justify-content: center;
-  align-self: center;
-  filter: drop-shadow(1px 2px 0px black);
+
+@media screen and (max-width: 480px) {
+  h1 {
+    justify-content: center;
+    font-size: 12px !important;
+    margin: 10px 0 10px 0;
+
+    img {
+      border-radius: 99%;
+      height: 30px !important;
+      width: 30px !important;
+    }
+  }
+  .LogindPage {
+    padding: 20px !important;
+  }
+  .signout {
+
+    font-size: 10px !important;
+
+  }
+  .mat-mdc-form-field {
+    width: 350px!important;
+  }
+
 }
+
+
+
 
 .example-container mat-form-field + mat-form-field {
   margin-left: 8px;
@@ -39,6 +61,7 @@ input.example-right-align {
   display: flex;
   justify-content: center;
   align-items: center;
+
   .mat-mdc-form-field {
     width: 300px;
   }
@@ -92,7 +115,7 @@ input.example-right-align {
 
   }
 
-  .buttonAndTitle{
+  .buttonAndTitle {
     display: flex;
     flex-direction: row-reverse;
     justify-content: space-between;
@@ -106,7 +129,8 @@ input.example-right-align {
     align-items: center;
     display: flex;
     margin: 20px 0 20px 0;
-    img{
+
+    img {
       border-radius: 99%;
       filter: drop-shadow(-1px 1px 0px gray);
       margin-left: 20px;
@@ -115,13 +139,16 @@ input.example-right-align {
       width: 70px;
     }
   }
-  .deleteMessage{
+
+  .deleteMessage {
     color: #b06c6c;
     margin-top: 30px;
   }
-  .mat-icon{
+
+  .mat-icon {
     color: #b06c6c;
   }
+
 }
 
 .message {
@@ -137,7 +164,10 @@ input.example-right-align {
   filter: drop-shadow(0px 0px 1px #795548);
 }
 
-.mat-mdc-form-field{
+.mat-mdc-form-field {
   width: 400px;
 }
+
+
+
 

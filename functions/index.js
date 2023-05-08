@@ -1,10 +1,4 @@
-
 const functions = require("firebase-functions");
-
-// // Create and deploy your first functions
-// // https://firebase.google.com/docs/functions/get-started
-//
-
 const admin = require("firebase-admin")
 //const {DocumentData, DocumentData} = require("@angular/fire/compat/firestore");
 
@@ -18,13 +12,23 @@ const cors = require("cors");
 
 app.use(cors());
 
-const toxcity= require ('@tensorflow-models/toxicity');
+const toxicity= require ('@tensorflow-models/toxicity');
 //const {DocumentReference, DocumentData} = require("@angular/fire/compat/firestore");
 
-/*analyze a message for toxic language.*/
+const validateFirebaseIdToken = async (req, res, next) => {
+  try {
+    const token = req.headers?.authorization;
+    await admin.auth().verifyIdToken(token);
+    return next();
+  } catch (error) {
+    return res.status(403).json(error);
+  }
+}
 
+
+/*analyze a message for toxic language.*/
 const isThisMessageAllRight = async (message) => {
-  const model = await toxcity.load(0.9);
+  const model = await toxicity.load(0.9);
   const predictions = await model.classify(message);
   let whatsWrongWithMessage = [];
 
@@ -38,19 +42,21 @@ const isThisMessageAllRight = async (message) => {
   return whatsWrongWithMessage;
 }
 
-app.post("/message", async (req, res) => {
+app.post('/message', validateFirebaseIdToken, async (req, res) => {
   const body = req.body;
-  const result =  await isThisMessageAllRight(body.messageContent);
+  const result = await isThisMessageAllRight(body.messageContent);
 
-  if (result.length===0){
-    body.timestamp = new Date();
-    const writeresult = await admin.firestore().collection('chat').add(body);
+  if(result.length===0) {
+    const writeresult =
+      await admin.firestore().collection('chat')
+        .doc(body.id)
+        .set(body);
     return res.status(201).json(writeresult);
   }
   return res.status(400).json(
     {
-      message:"You are a terrible person",
-      result: result
+      message: "you're being toxic",
+      results: result
     }
   )
 })
@@ -69,7 +75,7 @@ app.get("/someotherroute",(req,res)=> {
   res.json({someotherkey: "someothervalue"})
 })
  */
-/*
+
 exports.api = functions.https.onRequest(app)
 
 // the user have the same ID as the user in the firestore
@@ -92,7 +98,7 @@ exports.firestoreTriggeredFunction = functions.firestore
     functions.logger.log(myFieldData);
   })
 
- */
+
 
 
 /*
