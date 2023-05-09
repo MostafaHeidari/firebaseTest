@@ -63,24 +63,33 @@ export class FireService {
     this.currentlySignedInUserImageURL = await uploadTask.ref.getDownloadURL();
   }
 
+
   sendMessage(sendThisMessage: any) {
-    let messageDTO= {
-      messageContent: sendThisMessage,
-      user: this.auth.currentUser?.uid+"",
-      timestamp: new Date(),
-      id: (Math.random() + 1).toString(20).substring(2,15)
+    const currentUser = this.auth.currentUser;
+
+    if (!currentUser) {
+      console.error('User is not authenticated');
+      return;
     }
+
+    const messageDTO = {
+      messageContent: sendThisMessage,
+      user: currentUser.uid,
+      timestamp: new Date(),
+      id: (Math.random() + 1).toString(20).substring(2, 15),
+    };
 
     this.firestore
       .collection('chat')
       .add(messageDTO)
       .then(() => {
-        // message added successfully, no need to update messages array
+        console.log('Message added successfully');
       })
       .catch((error) => {
         console.error('Error adding message: ', error);
       });
   }
+
 
 
 
@@ -117,8 +126,8 @@ export class FireService {
     this.auth.createUserWithEmailAndPassword(email, password);
   }
 
-  signIn(email: string, password: string) {
-    this.auth.signInWithEmailAndPassword(email, password);
+  async signIn(email: string, password: string){
+    await this.auth.signInWithEmailAndPassword(email, password)
   }
 
   signOut() {
@@ -131,5 +140,3 @@ export class FireService {
       .doc(id).delete();
   }
 }
-
-

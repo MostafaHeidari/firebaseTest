@@ -6,7 +6,6 @@
     <ion-buttons slot="end">
       <img (click)="fileInput.click()" style="max-height: 30px;" [src]="fireService.currentlySignedInUserImageURL" alt="">
       <input (change)="fireService.updateUserImage($event)" hidden #fileInput type="file">
-
       <ion-button style="margin: 20px" (click)="fireService.signOut()">
         <ion-icon style="color: #84502B" name="log-out-outline"></ion-icon>
       </ion-button>
@@ -54,7 +53,8 @@
          align-content: end;
          grid-template-columns: repeat(12, auto);
          grid-auto-rows: 50px;
-         overflow-y: scroll;">
+         overflow-y: auto;
+         overscroll-behavior-y: auto;">
 
   <div style="grid-column: 1 / 12" *ngFor="let m of fireService.messages">
     <div style="float: right" *ngIf="fireService.auth.currentUser.uid==m.user">
@@ -71,13 +71,15 @@
   </div>
 
   <div  *ngIf="fireService.auth.currentUser"
-       style="grid-column: 1 / 12;">
+        style="grid-column: 1 / 12;">
     <ion-item style="padding-bottom: 20px">
       <ion-input [(ngModel)]="sendThisMessage" (keydown.enter)="sendMessage()" placeholder="Type your message  💬"></ion-input>
       <ion-button color="secondary" (click)="sendMessage()">Send message</ion-button>
     </ion-item>
   </div>
 </div>
+
+
 
 
 
